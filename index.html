@@ -1,0 +1,847 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
+  <title>Contact – Vintage Resort Dandeli</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,400&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <style>
+    /* ── Reset ── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html, body {
+      font-family: 'Inter', sans-serif;
+      background: #0a130a;
+      overflow-x: hidden; /* Prevent horizontal scroll, allow vertical */
+      min-height: 100vh;
+    }
+    
+
+    /* ══════════════════════════════════════
+       FULL-SCREEN LAYOUT
+    ══════════════════════════════════════ */
+    .screen {
+      position: relative;
+      width: 100%;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      overflow-x: hidden;
+      padding-bottom: 100px !important; /* CRITICAL: Adds empty space at the very bottom of the scrolling area */
+    }
+    /* ── Animated forest BG ── */
+    .bg-forest {
+      position: fixed; /* Changed from absolute */
+      inset: 0;
+      background:
+        radial-gradient(ellipse at 20% 80%, rgba(74,122,74,0.25) 0%, transparent 55%),
+        radial-gradient(ellipse at 80% 20%, rgba(26,46,26,0.6) 0%, transparent 55%),
+        linear-gradient(160deg, #0a130a 0%, #1a2e1a 45%, #0d1f0d 100%);
+      z-index: 0;
+    }
+
+    /* Floating leaf particles */
+    .leaves { position: fixed; inset: 0; pointer-events: none; z-index: 0; overflow: hidden; }
+    .leaf {
+      position: fixed;
+      font-size: 1rem;
+      opacity: 0;
+      animation: floatLeaf linear infinite;
+    }
+    @keyframes floatLeaf {
+      0%   { opacity: 0; transform: translateY(0) rotate(0deg); }
+      10%  { opacity: 0.35; }
+      90%  { opacity: 0.2; }
+      100% { opacity: 0; transform: translateY(-100vh) rotate(360deg); }
+    }
+
+    /* Glowing orbs */
+    .orb {
+      position: fixed;
+      border-radius: 50%;
+      filter: blur(60px);
+      pointer-events: none;
+      z-index: 0;
+      animation: orbPulse 6s ease-in-out infinite;
+    }
+    .orb1 { width: 220px; height: 220px; background: rgba(200,169,110,0.12); top: -60px; right: -60px; }
+    .orb2 { width: 180px; height: 180px; background: rgba(74,122,74,0.18); bottom: 20px; left: -40px; animation-delay: -3s; }
+    @keyframes orbPulse {
+      0%,100% { transform: scale(1); opacity: 0.8; }
+      50%      { transform: scale(1.3); opacity: 1; }
+    }
+
+    /* ── Content wrapper ── */
+    .content {
+      position: relative;
+      z-index: 2;
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+      padding: 0;
+    }
+
+    /* ══════════════════════════════════════
+       HEADER STRIP
+    ══════════════════════════════════════ */
+    .header {
+      padding: 18px 20px 14px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-shrink: 0;
+    }
+    .logo-wrap .logo-name {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.15rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      color: #c8a96e;
+    }
+    .logo-wrap .logo-sub {
+      font-size: 0.6rem;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.45);
+      display: block;
+    }
+    .header-badge {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      background: rgba(200,169,110,0.12);
+      border: 1px solid rgba(200,169,110,0.3);
+      border-radius: 50px;
+      padding: 5px 12px;
+    }
+    .pulse-dot {
+      width: 7px; height: 7px;
+      border-radius: 50%;
+      background: #4caf50;
+      animation: pulseDot 1.5s infinite;
+    }
+    @keyframes pulseDot {
+      0%,100% { box-shadow: 0 0 0 0 rgba(76,175,80,0.5); }
+      50%      { box-shadow: 0 0 0 6px rgba(76,175,80,0); }
+    }
+    .header-badge span { font-size: 0.7rem; color: rgba(255,255,255,0.65); font-weight: 500; }
+
+    /* ══════════════════════════════════════
+       HERO HEADLINE
+    ══════════════════════════════════════ */
+    .hero-text {
+      padding: 4px 20px 12px;
+      flex-shrink: 0;
+    }
+    .hero-text .eyebrow {
+      font-size: 0.65rem;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: #c8a96e;
+      font-weight: 600;
+      margin-bottom: 4px;
+    }
+    .hero-text h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.55rem;
+      font-weight: 700;
+      color: #fff;
+      line-height: 1.2;
+    }
+    .hero-text h1 em {
+      font-style: italic;
+      color: #c8a96e;
+      font-weight: 400;
+    }
+    .hero-text .tagline {
+      font-size: 0.72rem;
+      color: rgba(255,255,255,0.5);
+      margin-top: 4px;
+    }
+
+    /* ══════════════════════════════════════
+       SWIPE PHOTO SLIDER
+    ══════════════════════════════════════ */
+    .photo-slider {
+      margin: 10px 16px 0;
+      border-radius: 18px;
+      overflow: hidden;
+      flex-shrink: 0;
+      position: relative;
+      height: 205px;
+      border: 1px solid rgba(200,169,110,0.35);
+      box-shadow: 0 10px 32px rgba(0,0,0,0.5), 0 0 24px rgba(200,169,110,0.15);
+      user-select: none;
+      touch-action: pan-y;
+      background: #0d1a0d;
+    }
+    .slider-track {
+      display: flex;
+      height: 100%;
+      width: 100%;
+      transition: transform 0.42s cubic-bezier(0.25, 1, 0.5, 1);
+      will-change: transform;
+    }
+    .slide {
+      flex: 0 0 100%;
+      width: 100%;
+      height: 100%;
+      position: relative;
+      overflow: hidden;
+    }
+    .slide img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center;
+      display: block;
+      pointer-events: none;
+    }
+    .slide-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to top, rgba(10,20,10,0.85) 0%, rgba(10,20,10,0.1) 45%, rgba(10,20,10,0.4) 100%);
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      padding: 8px 12px;
+      pointer-events: none;
+    }
+    .slide-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      background: rgba(0,0,0,0.72);
+      backdrop-filter: blur(8px);
+      border: 1px solid rgba(200,169,110,0.45);
+      color: #fff;
+      font-size: 0.68rem;
+      font-weight: 600;
+      letter-spacing: 0.03em;
+      padding: 3px 10px;
+      border-radius: 50px;
+      width: fit-content;
+    }
+    .slider-dots {
+      position: absolute;
+      bottom: 8px;
+      right: 12px;
+      display: flex;
+      gap: 5px;
+      z-index: 3;
+    }
+    .s-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.35);
+      transition: all 0.3s ease;
+      cursor: pointer;
+    }
+    .s-dot.active {
+      width: 18px;
+      border-radius: 10px;
+      background: #c8a96e;
+      box-shadow: 0 0 8px rgba(200,169,110,0.6);
+    }
+    .slide-nav {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      background: rgba(0,0,0,0.45);
+      backdrop-filter: blur(4px);
+      border: 1px solid rgba(255,255,255,0.2);
+      color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.65rem;
+      cursor: pointer;
+      z-index: 3;
+      transition: all 0.2s ease;
+    }
+    .slide-nav:active { background: rgba(200,169,110,0.6); }
+    .slide-nav.prev { left: 8px; }
+    .slide-nav.next { right: 8px; }
+
+    /* ══════════════════════════════════════
+       MAP STRIP
+    ══════════════════════════════════════ */
+    .map-strip {
+      margin: 10px 16px 0;
+      border-radius: 14px;
+      overflow: hidden;
+      flex-shrink: 0;
+      position: relative;
+      height: 90px;
+      border: 1px solid rgba(255,255,255,0.1);
+    }
+    .map-strip iframe { width: 100%; height: 100%; border: none; display: block; filter: hue-rotate(100deg) saturate(0.5) brightness(0.7); }
+    .map-pin-label {
+      position: absolute;
+      bottom: 6px; left: 10px;
+      background: rgba(0,0,0,0.75);
+      backdrop-filter: blur(6px);
+      border-radius: 50px;
+      padding: 3px 10px;
+      display: flex; align-items: center; gap: 5px;
+      font-size: 0.65rem; color: rgba(255,255,255,0.85);
+      border: 1px solid rgba(255,255,255,0.12);
+    }
+    .map-pin-label i { color: #c8a96e; font-size: 0.6rem; }
+
+    /* ══════════════════════════════════════
+       REACH INFO
+    ══════════════════════════════════════ */
+    .reach-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+      padding: 10px 16px 0;
+      flex-shrink: 0;
+    }
+    .reach-item {
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 12px;
+      padding: 9px 12px;
+      display: flex; align-items: center; gap: 9px;
+    }
+    .reach-item i { color: #c8a96e; font-size: 0.85rem; min-width: 14px; }
+    .reach-item-text .reach-lbl { font-size: 0.58rem; color: rgba(255,255,255,0.35); text-transform: uppercase; letter-spacing: 0.07em; }
+    .reach-item-text .reach-val { font-size: 0.72rem; color: rgba(255,255,255,0.85); font-weight: 500; }
+
+    /* ══════════════════════════════════════
+       SOCIAL + HOURS FOOTER (ABOVE BUTTONS) - NOW STICKY
+    ══════════════════════════════════════ */
+    .bottom-strip {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      padding: 10px 16px 15px; /* Added a bit more bottom padding for mobile screens */
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-top: none; /* Removes the subtle line for a completely clean floating look */
+      background: transparent; /* Removes the black background */
+      z-index: 100;
+    }
+    .social-row { display: flex; gap: 8px; }
+    .soc-btn {
+      width: 32px; height: 32px;
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 0.8rem;
+      text-decoration: none;
+      border: 1px solid rgba(255,255,255,0.12);
+      transition: all 0.3s;
+    }
+    .soc-btn:hover, .soc-btn:active { border-color: #c8a96e; transform: scale(1.1); }
+    .soc-btn.ig { color: #e1306c; }
+    .soc-btn.fb { color: #4267B2; }
+    .soc-btn.yt { color: #FF0000; }
+    .soc-btn.ta { color: #34E0A1; }
+
+    .hours-badge {
+      display: flex; align-items: center; gap: 6px;
+      font-size: 0.65rem; color: rgba(255,255,255,0.45);
+    }
+    .hours-badge i { color: #c8a96e; }
+
+    /* ══════════════════════════════════════
+       CTA BUTTONS (AT VERY BOTTOM)
+    ══════════════════════════════════════ */
+    .cta-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      padding: 6px 16px 14px;
+      flex-shrink: 0;
+    }
+    .cta-btn {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 13px 12px;
+      border-radius: 50px;
+      font-size: 0.84rem;
+      font-weight: 700;
+      text-decoration: none;
+      letter-spacing: 0.04em;
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
+    }
+    .cta-btn::after {
+      content: '';
+      position: absolute; inset: 0;
+      background: rgba(255,255,255,0);
+      transition: background 0.2s;
+    }
+    .cta-btn:active::after { background: rgba(255,255,255,0.12); }
+    .cta-primary {
+      background: linear-gradient(135deg, #c8a96e, #e2c98a);
+      color: #1a2e1a;
+      box-shadow: 0 8px 24px rgba(200,169,110,0.35);
+    }
+    .cta-primary:hover { box-shadow: 0 12px 30px rgba(200,169,110,0.5); transform: translateY(-1px); }
+    .cta-whatsapp {
+      background: linear-gradient(135deg, #25D366, #128C7E);
+      color: #fff;
+      box-shadow: 0 8px 24px rgba(37,211,102,0.3);
+    }
+    .cta-whatsapp:hover { box-shadow: 0 12px 30px rgba(37,211,102,0.45); transform: translateY(-1px); }
+
+    /* ══════════════════════════════════════
+       DIVIDER
+    ══════════════════════════════════════ */
+    .divider {
+      height: 1px;
+      background: linear-gradient(to right, transparent, rgba(200,169,110,0.25), transparent);
+      margin: 8px 16px 0;
+      flex-shrink: 0;
+    }
+
+    /* ══════════════════════════════════════
+       RESPONSIVE SAFETY
+    ══════════════════════════════════════ */
+
+    /* ══════════════════════════════════════
+       RESPONSIVE SAFETY
+    ══════════════════════════════════════ */
+    /* Larger phones / tablets — keep centred */
+    @media (min-width: 480px) {
+      .screen { max-width: 430px; margin: 0 auto; box-shadow: 0 0 60px rgba(0,0,0,0.6); }
+      .bottom-strip { max-width: 430px; left: 50%; transform: translateX(-50%); }
+    }
+
+  </style>
+</head>
+<body>
+
+<!-- Animated leaves -->
+<div class="leaves" id="leaves"></div>
+
+<div class="screen">
+  <!-- Background -->
+  <div class="bg-forest"></div>
+  <div class="orb orb1"></div>
+  <div class="orb orb2"></div>
+
+  <div class="content">
+
+    <!-- ── HEADER ── -->
+    <div class="header">
+      <div class="logo-wrap">
+        <span class="logo-name">VINTAGE</span>
+        <span class="logo-sub">Resort Dandeli</span>
+      </div>
+    </div>
+
+    <!-- ── HERO TEXT ── -->
+    <div class="hero-text">
+      <div class="eyebrow">Contact Us</div>
+      <h1>Let's Plan Your<br><em>Jungle Escape</em></h1>
+      <p class="tagline"></p>
+    </div>
+
+    <!-- ── RESORT PHOTOS (SWIPE GALLERY) ── -->
+    <div class="photo-slider" id="resortSlider">
+      <div class="slider-track" id="sliderTrack">
+        <div class="slide">
+          <img src="images/resort1.jpg" alt="Vintage Resort Dandeli Cottages" />
+          <div class="slide-overlay">
+          </div>
+        </div>
+        <div class="slide">
+          <img src="images/resort2.jpg" alt="Vintage Resort Night View" />
+          <div class="slide-overlay">
+          </div>
+        </div>
+        <div class="slide">
+          <img src="images/resort3.jpg" alt="Zen Buddha Fountain" />
+          <div class="slide-overlay">
+          </div>
+        </div>
+        <div class="slide">
+          <img src="images/resort4.jpg" alt="Crystal Swimming Pool" />
+          <div class="slide-overlay">
+          </div>
+        </div>
+      </div>
+
+      <!-- Controls & Dots -->
+      <button class="slide-nav prev" id="sliderPrev" aria-label="Previous photo"><i class="fa fa-chevron-left"></i></button>
+      <button class="slide-nav next" id="sliderNext" aria-label="Next photo"><i class="fa fa-chevron-right"></i></button>
+
+      <div class="slider-dots" id="sliderDots">
+        <span class="s-dot active" data-index="0"></span>
+        <span class="s-dot" data-index="1"></span>
+        <span class="s-dot" data-index="2"></span>
+        <span class="s-dot" data-index="3"></span>
+      </div>
+    </div>
+
+ 
+
+   <!-- Enquiry Form Section -->
+<div class="enquiry-section">
+  <div class="enquiry-form-container">
+    <form id="whatsappEnquiryForm" class="enquiry-form">
+      
+      <div class="form-group row">
+        <label for="enquiry-for">Enquiry For</label>
+        <select id="enquiry-for" name="enquiry-for">
+          <option value="" disabled selected>--Select Option--</option>
+          <option value="day-outing">Day Outing</option>
+          <option value="night-stay">Night Stay</option>
+          <option value="camping">Camping</option>
+        </select>
+      </div>
+
+      <div class="form-group row">
+        <label for="name">Name <span class="required">*</span></label>
+        <input type="text" id="name" name="name" required>
+      </div>
+
+      <div class="form-group row">
+        <label for="email">Email</label>
+        <input type="email" id="email" name="email">
+      </div>
+
+      <div class="form-group row">
+        <label for="mobile">Mobile <span class="required">*</span></label>
+        <input type="tel" id="mobile" name="mobile" required>
+      </div>
+
+      <div class="form-group row">
+        <label for="adults">No. Of Adults</label>
+        <input type="number" id="adults" name="adults" min="1">
+      </div>
+
+      <div class="form-submit">
+        <button type="submit" class="submit-btn">Submit Enquiry</button>
+      </div>
+      
+    </form>
+  </div>
+</div>
+
+<style>
+  /* Improved, cleaner CSS layout */
+  /* Ensure the section takes full available width but respects padding */
+  .enquiry-section {
+    width: 100%;
+    padding: 0; /* Remove padding to match the photo slider's edge */
+    box-sizing: border-box;
+    display: flex;
+    justify-content: center; 
+  }
+
+  .enquiry-form-container {
+    background-color: #ffffff !important;
+    padding: 25px 20px;
+    border-radius: 12px;
+    width: calc(100% - 32px); /* Forces it to be exactly 100% minus the 16px margins on each side used by the slider */
+    margin: 20px 16px 40px 16px; /* Aligns margins perfectly with .photo-slider */
+    box-sizing: border-box;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15); 
+  }
+
+  .enquiry-form {
+    display: flex;
+    flex-direction: column;
+    gap: 16px; 
+    font-family: Arial, sans-serif;
+  }
+
+  .enquiry-form .form-group {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+  }
+
+  .enquiry-form label {
+    font-weight: 600;
+    font-size: 14px;
+    width: 38%;
+    text-align: left;
+    margin: 0;
+    color: #222222 !important;
+  }
+
+  .enquiry-form .required {
+    color: #e63946 !important;
+    margin-left: 2px;
+  }
+
+  /* Cleaner inputs with soft borders */
+  .enquiry-form input,
+  .enquiry-form select {
+    width: 60%;
+    padding: 10px 12px;
+    border: 1px solid #cbd5e1 !important; 
+    border-radius: 6px;
+    font-size: 14px;
+    background-color: #f8fafc !important; /* Very subtle off-white */
+    color: #000000 !important;
+    transition: all 0.2s ease;
+  }
+
+  .enquiry-form input:focus,
+  .enquiry-form select:focus {
+    outline: none;
+    border-color: #222222 !important;
+    background-color: #ffffff !important;
+    box-shadow: 0 0 0 2px rgba(0,0,0,0.05);
+  }
+
+  /* Modern Solid Submit Button */
+  .enquiry-form .form-submit {
+    text-align: center;
+    margin-top: 10px;
+  }
+
+  .enquiry-form .submit-btn {
+    width: 100%;
+    padding: 12px;
+    background-color: #1a1a1a !important; /* Premium dark solid button */
+    color: #ffffff !important;
+    border: none !important;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 15px;
+    font-weight: bold;
+    letter-spacing: 0.5px;
+    transition: background-color 0.2s ease;
+  }
+
+  .enquiry-form .submit-btn:hover {
+    background-color: #404040 !important;
+  }
+</style>
+
+       <!-- ── HOW TO REACH ── -->
+    <div class="reach-row">
+      <div class="reach-item">
+        <i class="fa fa-plane"></i>
+        <div class="reach-item-text">
+          <div class="reach-lbl">By Air</div>
+          <div class="reach-val">Hubli Airport · 75 km</div>
+        </div>
+      </div>
+      <div class="reach-item">
+        <i class="fa fa-train"></i>
+        <div class="reach-item-text">
+          <div class="reach-lbl">By Train</div>
+          <div class="reach-val">Londa Jn · 25 km</div>
+        </div>
+      </div>
+      <div class="reach-item">
+        <i class="fa fa-car"></i>
+        <div class="reach-item-text">
+          <div class="reach-lbl">From Bengaluru</div>
+          <div class="reach-val">460 km · 5 hrs</div>
+        </div>
+      </div>
+      <div class="reach-item">
+        <i class="fa fa-car-side"></i>
+        <div class="reach-item-text">
+          <div class="reach-lbl">From Goa</div>
+          <div class="reach-val">180 km · 3 hrs</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── CTA BUTTONS (AT VERY BOTTOM) ── -->
+    <div class="bottom-strip">
+      <a href="tel:+916361185700" class="cta-btn cta-primary">
+        <i class="fa fa-phone"></i> Contact Us
+      </a>
+      <a href="https://wa.me/916361185700?text=Hi%21+I%27d+like+to+enquire+about+Vintage+Resort+Dandeli" class="cta-btn cta-whatsapp">
+        <i class="fab fa-whatsapp"></i> WhatsApp Us
+      </a>
+    </div>
+
+  </div><!-- /content -->
+</div><!-- /screen -->
+
+<script>
+  // ── Floating leaf particles ──
+  const leafEmojis = ['🍃','🌿','🍂','🌱'];
+  const container  = document.getElementById('leaves');
+  for (let i = 0; i < 12; i++) {
+    const el = document.createElement('div');
+    el.className = 'leaf';
+    el.textContent = leafEmojis[Math.floor(Math.random() * leafEmojis.length)];
+    el.style.left     = Math.random() * 95 + '%';
+    el.style.bottom   = '-30px';
+    el.style.fontSize = (0.6 + Math.random() * 0.7) + 'rem';
+    el.style.animationDuration  = (8 + Math.random() * 12) + 's';
+    el.style.animationDelay     = (Math.random() * 10) + 's';
+    container.appendChild(el);
+  }
+
+  // ── Tap ripple on buttons ──
+  document.querySelectorAll('.cta-btn, .reach-item').forEach(el => {
+    el.addEventListener('touchstart', function(e) {
+      this.style.transform = 'scale(0.97)';
+    }, { passive: true });
+    el.addEventListener('touchend', function() {
+      this.style.transform = '';
+    });
+  });
+
+  // ── SWIPE PHOTO SLIDER LOGIC ──
+  const slider = document.getElementById('resortSlider');
+  const track  = document.getElementById('sliderTrack');
+  const slides = document.querySelectorAll('.slide');
+  const dots   = document.querySelectorAll('.s-dot');
+  const counter = document.getElementById('slideCounter');
+  const prevBtn = document.getElementById('sliderPrev');
+  const nextBtn = document.getElementById('sliderNext');
+  const total = slides.length;
+  let currentIdx = 0;
+  let autoTimer = null;
+  let startX = 0, currentX = 0, isDragging = false;
+
+  function updateSlider(idx) {
+    currentIdx = (idx + total) % total;
+    track.style.transition = 'transform 0.42s cubic-bezier(0.25, 1, 0.5, 1)';
+    track.style.transform = `translateX(-${currentIdx * 100}%)`;
+    dots.forEach((d, i) => d.classList.toggle('active', i === currentIdx));
+    if (counter) counter.textContent = `${currentIdx + 1} / ${total}`;
+  }
+
+  function nextSlide() { updateSlider(currentIdx + 1); }
+  function prevSlide() { updateSlider(currentIdx - 1); }
+
+  function startAuto() {
+    clearInterval(autoTimer);
+    autoTimer = setInterval(nextSlide, 3600);
+  }
+  function stopAuto() {
+    clearInterval(autoTimer);
+  }
+
+  // Buttons
+  if (nextBtn) nextBtn.addEventListener('click', (e) => { e.stopPropagation(); nextSlide(); startAuto(); });
+  if (prevBtn) prevBtn.addEventListener('click', (e) => { e.stopPropagation(); prevSlide(); startAuto(); });
+
+  // Dots
+  dots.forEach(dot => {
+    dot.addEventListener('click', (e) => {
+      e.stopPropagation();
+      const idx = parseInt(dot.dataset.index, 10);
+      updateSlider(idx);
+      startAuto();
+    });
+  });
+
+  // Touch Swipe
+  slider.addEventListener('touchstart', (e) => {
+    stopAuto();
+    isDragging = true;
+    startX = e.touches[0].clientX;
+    currentX = startX;
+    track.style.transition = 'none';
+  }, { passive: true });
+
+  slider.addEventListener('touchmove', (e) => {
+    if (!isDragging) return;
+    currentX = e.touches[0].clientX;
+    const diff = currentX - startX;
+    const offset = -(currentIdx * slider.offsetWidth) + diff;
+    track.style.transform = `translateX(${offset}px)`;
+  }, { passive: true });
+
+  slider.addEventListener('touchend', () => {
+    if (!isDragging) return;
+    isDragging = false;
+    const diff = currentX - startX;
+    if (diff < -40) {
+      nextSlide();
+    } else if (diff > 40) {
+      prevSlide();
+    } else {
+      updateSlider(currentIdx);
+    }
+    startAuto();
+  });
+
+  
+  // Mouse Drag (for desktop / preview testing)
+  slider.addEventListener('mousedown', (e) => {
+    stopAuto();
+    isDragging = true;
+    startX = e.clientX;
+    currentX = startX;
+    track.style.transition = 'none';
+  });
+
+  window.addEventListener('mousemove', (e) => {
+    if (!isDragging) return;
+    currentX = e.clientX;
+    const diff = currentX - startX;
+    const offset = -(currentIdx * slider.offsetWidth) + diff;
+    track.style.transform = `translateX(${offset}px)`;
+  });
+
+  window.addEventListener('mouseup', () => {
+    if (!isDragging) return;
+    isDragging = false;
+    const diff = currentX - startX;
+    if (diff < -40) {
+      nextSlide();
+    } else if (diff > 40) {
+      prevSlide();
+    } else {
+      updateSlider(currentIdx);
+    }
+    startAuto();
+  });
+
+  
+
+  startAuto();
+
+  /* ── WhatsApp Form Submission ── */
+  const waForm = document.getElementById('whatsappEnquiryForm');
+  if (waForm) {
+    waForm.addEventListener('submit', function(e) {
+      e.preventDefault(); // Prevents the page from refreshing or throwing an error
+
+      // 1. Get the values from the form fields
+      const enquiryFor = document.getElementById('enquiry-for').value || 'Not specified';
+      const name = document.getElementById('name').value;
+      const email = document.getElementById('email').value || 'Not provided';
+      const mobile = document.getElementById('mobile').value;
+      const adults = document.getElementById('adults').value || 'Not specified';
+
+      // 2. Format the message for WhatsApp (using %0A for line breaks and * for bold)
+      const message = `*New Resort Enquiry* 🌴%0A%0A` +
+                      `*Enquiry For:* ${enquiryFor}%0A` +
+                      `*Name:* ${name}%0A` +
+                      `*Mobile:* ${mobile}%0A` +
+                      `*Email:* ${email}%0A` +
+                      `*No. of Adults:* ${adults}`;
+
+      // 3. Open WhatsApp with your specific number and the pre-filled message
+      // Note: Do not use the '+' sign in the phone number here
+      const targetPhone = "916361185700"; 
+      const whatsappUrl = `https://wa.me/${targetPhone}?text=${message}`;
+
+      window.open(whatsappUrl, '_blank');
+    });
+  }
+  
+</script>
+</body>
+</html>
