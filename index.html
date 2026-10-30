@@ -498,8 +498,8 @@
         <label for="enquiry-for">Enquiry For</label>
         <select id="enquiry-for" name="enquiry-for">
           <option value="" disabled selected>--Select Option--</option>
-          <option value="full-package">Full Package</option>
-          <option value="day-out">Day Out</option>
+          <option value="Full Package">Full Package</option>
+          <option value="Day Out">Day Out</option>
         </select>
       </div>
 
@@ -671,10 +671,10 @@
 
     <!-- ── CTA BUTTONS (AT VERY BOTTOM) ── -->
     <div class="bottom-strip">
-      <a href="tel:+916361185700" class="cta-btn cta-primary">
+      <a href="tel:+917892978828" class="cta-btn cta-primary">
         <i class="fa fa-phone"></i> Contact Us
       </a>
-      <a href="https://wa.me/916361185700?text=Hi%21+I%27d+like+to+enquire+about+Vintage+Resort+Dandeli" class="cta-btn cta-whatsapp">
+      <a href="https://wa.me/917892978828?text=Hi%21+I%27d+like+to+enquire+about+Vintage+Resort+Dandeli" class="cta-btn cta-whatsapp">
         <i class="fab fa-whatsapp"></i> WhatsApp Us
       </a>
     </div>
@@ -838,17 +838,16 @@
       const checkout = document.getElementById('checkout').value || 'Not specified';
 
       // 2. Format the message for WhatsApp
-      const message = `*New Resort Enquiry* 🌴%0A%0A` +
-                      `*Enquiry For:* ${enquiryFor}%0A` +
-                      `*Name:* ${name}%0A` +
-                      `*Mobile:* ${mobile}%0A` +
-                      `*Email:* ${email}%0A` +
-                      `*No. of Adults:* ${adults}`+
-                      `*Check-in:* ${checkin}%0A` +
-                      `*Check-out:* ${checkout}%0A` ;
+      const message = `Enquiry For: ${enquiryFor}%0A` +
+                `Name: ${name}%0A` +
+                `Mobile: ${mobile}%0A` +
+                `Email: ${email}%0A` +
+                `No. of Adults: ${adults}%0A` +
+                `Check-in: ${checkin}%0A` +
+                `Check-out: ${checkout}`;
 
       // 3. Open WhatsApp
-      const targetPhone = "916361185700"; 
+      const targetPhone = "917892978828"; 
       const whatsappUrl = `https://wa.me/${targetPhone}?text=${message}`;
 
       window.open(whatsappUrl, '_blank');
