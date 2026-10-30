@@ -179,7 +179,7 @@
       display: flex;
       height: 100%;
       width: 100%;
-      transition: transform 0.42s cubic-bezier(0.25, 1, 0.5, 1);
+      transition: transform 0.05s cubic-bezier(0.15, 0.30, 0.25, 1);
       will-change: transform;
     }
     .slide {
@@ -489,7 +489,7 @@
 
  
 
-   <!-- Enquiry Form Section -->
+<!-- Enquiry Form Section -->
 <div class="enquiry-section">
   <div class="enquiry-form-container">
     <form id="whatsappEnquiryForm" class="enquiry-form">
@@ -498,9 +498,8 @@
         <label for="enquiry-for">Enquiry For</label>
         <select id="enquiry-for" name="enquiry-for">
           <option value="" disabled selected>--Select Option--</option>
-          <option value="day-outing">Day Outing</option>
-          <option value="night-stay">Night Stay</option>
-          <option value="camping">Camping</option>
+          <option value="full-package">Full Package</option>
+          <option value="day-out">Day Out</option>
         </select>
       </div>
 
@@ -522,6 +521,16 @@
       <div class="form-group row">
         <label for="adults">No. Of Adults</label>
         <input type="number" id="adults" name="adults" min="1">
+      </div>
+
+      <div class="form-group row">
+        <label for="checkin">Check-in Date</label>
+        <input type="date" id="checkin" name="checkin">
+      </div>
+
+      <div class="form-group row">
+        <label for="checkout">Check-out Date</label>
+        <input type="date" id="checkout" name="checkout">
       </div>
 
       <div class="form-submit">
@@ -714,7 +723,8 @@
 
   function updateSlider(idx) {
     currentIdx = (idx + total) % total;
-    track.style.transition = 'transform 0.42s cubic-bezier(0.25, 1, 0.5, 1)';
+    // Ultra-fast custom cubic-bezier transition for instant snapping
+    track.style.transition = 'transform 0.05s cubic-bezier(0.15,0.3,0.15,1)';
     track.style.transform = `translateX(-${currentIdx * 100}%)`;
     dots.forEach((d, i) => d.classList.toggle('active', i === currentIdx));
     if (counter) counter.textContent = `${currentIdx + 1} / ${total}`;
@@ -812,11 +822,11 @@
 
   startAuto();
 
-  /* ── WhatsApp Form Submission ── */
+ /* ── WhatsApp Form Submission ── */
   const waForm = document.getElementById('whatsappEnquiryForm');
   if (waForm) {
     waForm.addEventListener('submit', function(e) {
-      e.preventDefault(); // Prevents the page from refreshing or throwing an error
+      e.preventDefault(); 
 
       // 1. Get the values from the form fields
       const enquiryFor = document.getElementById('enquiry-for').value || 'Not specified';
@@ -824,24 +834,27 @@
       const email = document.getElementById('email').value || 'Not provided';
       const mobile = document.getElementById('mobile').value;
       const adults = document.getElementById('adults').value || 'Not specified';
+      const checkin = document.getElementById('checkin').value || 'Not specified';
+      const checkout = document.getElementById('checkout').value || 'Not specified';
 
-      // 2. Format the message for WhatsApp (using %0A for line breaks and * for bold)
+      // 2. Format the message for WhatsApp
       const message = `*New Resort Enquiry* 🌴%0A%0A` +
                       `*Enquiry For:* ${enquiryFor}%0A` +
                       `*Name:* ${name}%0A` +
                       `*Mobile:* ${mobile}%0A` +
                       `*Email:* ${email}%0A` +
-                      `*No. of Adults:* ${adults}`;
+                      `*No. of Adults:* ${adults}`+
+                      `*Check-in:* ${checkin}%0A` +
+                      `*Check-out:* ${checkout}%0A` ;
 
-      // 3. Open WhatsApp with your specific number and the pre-filled message
-      // Note: Do not use the '+' sign in the phone number here
+      // 3. Open WhatsApp
       const targetPhone = "916361185700"; 
       const whatsappUrl = `https://wa.me/${targetPhone}?text=${message}`;
 
       window.open(whatsappUrl, '_blank');
     });
   }
-  
+
 </script>
 </body>
 </html>
